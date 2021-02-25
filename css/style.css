@@ -1,0 +1,177 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-color: #158dd8;
+    --global-border-radius: 3px;
+}
+
+body {
+    font-family: "Crimson Text", serif;
+}
+
+@font-face {
+    font-family: "harry-potter-regular";
+    src: url("../fonts/harry-potter-webfont.woff2") format("woff2"), url("../fonts/harry-potter-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+}
+
+.o-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+
+.c-table {
+    border-collapse: collapse;
+    border-radius: var(--global-border-radius);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.c-table__head {
+    background-color: var(--primary-color);
+    font-size: 1.75rem;
+}
+
+.c-table__body {
+    font-size: 1.5rem;
+}
+
+.c-student__house-cell,
+.c-student__prefect-cell,
+.c-student__squad-cell {
+    width: 80px;
+}
+
+.c-student__house-image,
+.c-student__prefect-image,
+.c-student__squad-image {
+    max-height: 96px;
+    margin: 0 auto;
+}
+
+.c-student {
+    border-top: 1px solid #ddd;
+}
+
+.c-student:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.c-table th,
+.c-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.c-student > td:first-child {
+    max-width: 114px;
+}
+
+/* Student popup */
+.c-student-popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.c-student-popup__content {
+    background-color: #fff;
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+}
+
+.c-student-popup__header {
+    padding: 3rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.c-student-popup__photo {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.c-student-popup__title {
+    text-align: center;
+}
+
+.c-student-popup__close-button {
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
+}
+
+.c-student-popup__body {
+    display: flex;
+}
+
+.c-student-popup__status {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.c-student-popup__column {
+    padding: 3rem;
+    width: 50%;
+}
+
+.c-student-popup__column:last-child {
+    border-left: 1px solid #ddd;
+}
+
+.c-icon {
+    max-width: 80px;
+    max-height: 96px;
+}
+
+/**
+*
+*  States
+*
+**/
+
+.is-hidden {
+    display: none;
+}
+
+.is-active {
+    filter: none;
+}
+
+/**
+*
+*  Utilities
+*
+**/
+
+.u-image-greyscale {
+    filter: grayscale(1);
+}

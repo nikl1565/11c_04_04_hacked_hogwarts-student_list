@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11C.02.05 - Cleaning Hogwarts Data</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="c-site-header"></header>
+    <main class="c-site-content">
+        <div class="o-container">
+            <h2>List of students 2021</h2>
+            <div class="c-filter-buttons">
+                <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+                <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+                <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+                <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+            </div>
+            <table class="c-table">
+                <thead class="c-table__head">
+                    <tr>
+                        <th></th>
+                        <th data-action="sort" data-sort-direction="asc" data-sort="first-name">First Name</th>
+                        <th data-action="sort" data-sort-direction="asc" data-sort="last-name">Last Name</th>
+                        <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
+                        <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Prefect</th>
+                        <th data-action="sort" data-sort-direction="asc" data-sort="squad">Squad</th>
+                    </tr>
+                </thead>
+                <tbody class="c-table__body js-student-list"></tbody>
+            </table>
+        </div>
+    </main>
+    <footer class="c-site-footer"></footer>
+
+    <div class="c-student-popup is-hidden js-student-popup">
+        <div class="c-student-popup__content">
+            <div class="c-student-popup__header">
+                <img class="c-student-popup__photo" data-field="profile-image" src="#" alt="#">
+                <h3 class="c-student-popup__title" data-field="name"></h3>
+                <div class="c-student-popup__status">
+                    <img class="c-icon" data-field="house" src="#" alt="#">
+                    <img class="c-icon" data-field="prefect" src="#" alt="#">
+                    <img class="c-icon" data-field="squad" src="#" alt="#">
+                </div>
+                <button class="c-student-popup__close-button js-student-popup-close-button">X</button>
+            </div>
+            <div class="c-student-popup__body">
+                <div class="c-student-popup__column">
+                    <h4>Demography</h4>
+                    <p>Gender: <span data-field="gender"></span></p>
+                    <p>Blood status: <span data-field="blood-status"></span></p>
+                </div>
+                <div class="c-student-popup__column">
+                    <h4>Status</h4>
+                    <p>Expelled: <span data-field="expelled"></span></p>
+                </div>
+            </div>
+            <div class="c-student-popup__footer"></div>
+        </div>
+    </div>
+
+    <template class="t-student">
+        <tr class="c-student">
+            <td class="c-student__image-cell">
+                <img class="c-student__profile-image" src="#" alt="#">
+            </td>
+            <td class="c-student__first-name-cell">
+                <h2 class="c-student__first-name-cell"></h2>
+            </td>
+            <td class="c-student__last-name-cell"></td>
+            <td class="c-student__house-cell">
+                <img class="c-student__house-image" src="#" alt="#">
+            </td>
+            <td class="c-student__prefect-cell">
+                <img class="c-student__prefect-image" src="" alt="">
+            </td>
+            <td class="c-student__squad-cell">
+                <img class="c-student__squad-image" src="" alt="">
+            </td>
+        </tr>
+    </template>
+
+    <template class="t-modal">
+        <div class="c-modal">
+            <div class="c-modal__content">
+                <div class="c-modal__header">
+                    <h3 class="c-modal__title"></h3>
+                </div>
+                <div class="c-modal__body"></div>
+                <div class="c-modal__footer"></div>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
