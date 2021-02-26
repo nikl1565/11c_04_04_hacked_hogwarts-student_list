@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1e0809732c.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -31,12 +32,15 @@
                 <table class="c-table">
                     <thead class="c-table__head">
                         <tr>
-                            <th>Sort by:</th>
+                            <th></th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="id">ID</th>
                             <th class="is-active" data-action="sort" data-sort-direction="asc" data-sort="firstname">First Name</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="lastname">Last Name</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="gender">Gender</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Prefect</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="squad">Squad</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody class="c-table__body js-student-list"></tbody>
@@ -86,10 +90,12 @@
             <td class="c-student__image-cell">
                 <img class="c-student__profile-image" src="#" alt="#">
             </td>
+            <td class="c-student__id-cell"></td>
             <td class="c-student__first-name-cell">
                 <h2 class="c-student__first-name-cell"></h2>
             </td>
             <td class="c-student__last-name-cell"></td>
+            <td class="c-student__gender-cell"></td>
             <td class="c-student__house-cell">
                 <img class="c-student__house-image" src="#" alt="#">
             </td>
@@ -98,6 +104,9 @@
             </td>
             <td class="c-student__squad-cell" data-action="squad">
                 <img class="c-student__squad-image" src="" alt="">
+            </td>
+            <td class="c-student__details-cell">
+                <i class="fas fa-chevron-right"></i>
             </td>
         </tr>
     </template>

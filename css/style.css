@@ -7,12 +7,14 @@
 }
 
 :root {
-    --primary-color: #158dd8;
+    --primary-color: #ddd;
     --global-border-radius: 3px;
+    --box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 body {
-    font-family: "Crimson Text", serif;
+    /* font-family: "Crimson Text", serif; */
+    font-family: sans-serif;
 }
 
 @font-face {
@@ -24,6 +26,7 @@ body {
 
 body {
     margin: 0;
+    background-color: #eee;
 }
 
 img {
@@ -36,6 +39,10 @@ button {
     cursor: pointer;
 }
 
+.fas {
+    font-size: 2.5rem;
+}
+
 .o-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -45,6 +52,14 @@ button {
 
 .c-button {
     padding: 1rem 1.5rem;
+    background-color: #fff;
+    border-radius: var(--global-border-radius);
+    border: 0;
+    box-shadow: var(--box-shadow);
+}
+
+.c-button + .c-button {
+    margin-left: 1rem;
 }
 
 .c-button--filter.is-active {
@@ -63,17 +78,21 @@ button {
 .c-table {
     border-collapse: collapse;
     border-radius: var(--global-border-radius);
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     width: 100%;
 }
 
 .c-table__head {
-    background-color: var(--primary-color);
-    font-size: 1.75rem;
+    background-color: #4d4d4d;
+    color: #fff;
 }
 
-.c-table__body {
-    font-size: 1.5rem;
+.c-student__girl-icon {
+    color: #ea7aa7;
+}
+
+.c-student__boy-icon {
+    color: #7aa7ea;
 }
 
 .c-student__house-cell,
@@ -102,10 +121,11 @@ button {
 
 .c-student {
     border-top: 1px solid #ddd;
+    background-color: #eee;
 }
 
 .c-student:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #fff;
 }
 
 .c-table th,
@@ -119,8 +139,8 @@ button {
     color: #fff;
 }
 
-.c-student > td:first-child {
-    max-width: 114px;
+.c-student__profile-image {
+    max-width: 60px;
 }
 
 /* Student popup */

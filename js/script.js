@@ -8,6 +8,7 @@ let bloodStatus = [];
 let unfilteredStudents;
 
 const Student = {
+    id: null,
     fullname: "-unknown-",
     firstname: "-unknown-",
     middlename: "-unknown-",
@@ -28,7 +29,7 @@ const templates = {
 };
 
 const settings = {
-    sortBy: "name",
+    sortBy: "firstname",
     sortDir: "asc",
     filterBy: "all",
 };
@@ -63,16 +64,20 @@ async function loadJSON(url) {
 }
 
 // TODO: Clean up
+// One function for each part
 function prepareObjects(jsonData) {
     console.log("prepareObjects");
 
-    jsonData.forEach((jsonObject) => {
+    jsonData.forEach((jsonObject, index) => {
         const student = Object.create(Student);
 
         const fullname = jsonObject.fullname.toLowerCase().trim();
         const firstSpaceInFullName = fullname.indexOf(" ");
         const lastSpaceInFullName = fullname.lastIndexOf(" ");
         const checkForHyphen = fullname.indexOf("-");
+
+        // ID
+        student.id = index + 1;
 
         let firstName;
         let firstNameFirstLetter;
@@ -225,12 +230,23 @@ function displayList(students) {
 function displayStudent(student) {
     const templateClone = templates.student.cloneNode(true);
 
+    // Student ID
+    templateClone.querySelector(".c-student__id-cell").innerHTML = `#${student.id}`;
+
     // Profile image
     templateClone.querySelector(".c-student__profile-image").src = student.image;
     // First name
     templateClone.querySelector(".c-student__first-name-cell").textContent = student.firstname;
     // Last name
     templateClone.querySelector(".c-student__last-name-cell").textContent = student.lastname;
+
+    // Gender
+    if (student.gender.toLowerCase() === "boy") {
+        templateClone.querySelector(".c-student__gender-cell").innerHTML = '<i class="c-student__boy-icon [ fas fa-mars ]"></i>';
+    } else {
+        templateClone.querySelector(".c-student__gender-cell").innerHTML = '<i class="c-student__girl-icon [ fas fa-venus ]"></i>';
+    }
+
     // House image
     templateClone.querySelector(".c-student__house-image").src = `img/shield-${student.house.toLowerCase()}.png`;
 
@@ -249,7 +265,7 @@ function displayStudent(student) {
     }
 
     // Show popup if click on student
-    templateClone.querySelector(".c-student__profile-image").addEventListener("click", clickStudent);
+    templateClone.querySelector(".c-student__details-cell").addEventListener("click", clickStudent);
 
     templateClone.querySelector("[data-action=prefect]").addEventListener("click", clickPrefectButton);
     templateClone.querySelector("[data-action=squad]").addEventListener("click", clickSquadButton);
