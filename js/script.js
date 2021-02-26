@@ -11,9 +11,10 @@ const Student = {
     fullname: "-unknown-",
     firstname: "-unknown-",
     middlename: "-unknown-",
-    nickname: undefined,
+    nickname: null,
     lastname: "-unknown-",
     gender: undefined,
+    bloodstatus: null,
     house: undefined,
     image: undefined,
     prefect: false,
@@ -149,6 +150,27 @@ function prepareObjects(jsonData) {
         const genderAfterFirstLetter = gender.substring(1);
         student.gender = genderFirstLetter + genderAfterFirstLetter;
 
+        // Bloodstatus
+        const familyBloodStatus = {
+            half: false,
+            pure: false,
+        };
+
+        familyBloodStatus.half = bloodStatus.half.includes(student.lastname);
+        familyBloodStatus.pure = bloodStatus.pure.includes(student.lastname);
+
+        console.log(familyBloodStatus);
+        // Set bloodstatus
+        if (!familyBloodStatus.half && familyBloodStatus.pure) {
+            student.bloodstatus = "Pure-blood";
+        } else if (familyBloodStatus.half && familyBloodStatus.pure) {
+            student.bloodstatus = "Half-blood";
+        } else {
+            student.bloodstatus = "Muggle";
+        }
+
+        console.log(student.bloodstatus);
+
         // Image
         let multipleWithTheSameLastName = 0;
         unfilteredStudents.forEach((unfilteredStudent) => {
@@ -259,7 +281,7 @@ function displayStudent(student) {
         studentPopup.querySelector("[data-field=house]").src = `img/shield-${student.house.toLowerCase()}.png`;
 
         // TODO: Add blood status
-        studentPopup.querySelector("[data-field=blood-status]").textContent = "Not sure yet";
+        studentPopup.querySelector("[data-field=blood-status]").textContent = student.bloodstatus;
 
         // TODO: Prefetch status
         if (student.prefect) {
