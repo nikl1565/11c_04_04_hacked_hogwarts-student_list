@@ -2,7 +2,10 @@
 
 window.addEventListener("DOMContentLoaded", init);
 
-const allStudents = [];
+let allStudents = [];
+let bloodStatus = [];
+// TODO: Hopefully not needed
+let unfilteredStudents;
 
 const Student = {
     fullname: "-unknown-",
@@ -29,27 +32,33 @@ const settings = {
     filterBy: "all",
 };
 
-// TODO: Hopefully not needed
-let unfilteredStudents;
+const urls = {
+    studentList: "https://petlatkea.dk/2021/hogwarts/students.json",
+    bloodStatus: "https://petlatkea.dk/2021/hogwarts/families.json",
+};
 
-function init() {
+async function init() {
     console.log("init");
 
-    loadJSON();
+    // get students unfiltered
+    unfilteredStudents = await loadJSON(urls.studentList);
+    // get blood statuses
+    bloodStatus = await loadJSON(urls.bloodStatus);
 
+    // Prepare student objects
+    prepareObjects(unfilteredStudents);
+
+    // Start filter and sort buttons
     initButtons();
 }
 
-function loadJSON() {
+async function loadJSON(url) {
     console.log("loadJSON");
 
-    fetch("https://petlatkea.dk/2021/hogwarts/students.json")
-        .then((response) => response.json())
-        .then((jsonData) => {
-            unfilteredStudents = jsonData;
+    const getData = await fetch(url);
+    const response = await getData.json();
 
-            prepareObjects(jsonData);
-        });
+    return response;
 }
 
 // TODO: Clean up
