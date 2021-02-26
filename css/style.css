@@ -32,11 +32,32 @@ img {
     height: auto;
 }
 
+button {
+    cursor: pointer;
+}
+
 .o-container {
     max-width: 1200px;
     margin: 0 auto;
     padding-right: 2rem;
     padding-left: 2rem;
+}
+
+.c-button {
+    padding: 1rem 1.5rem;
+}
+
+.c-button--filter.is-active {
+    background-color: #000;
+    color: #fff;
+}
+
+.c-site-content {
+    padding: 2rem 0;
+}
+
+.c-filter-buttons {
+    padding: 2rem 0;
 }
 
 .c-table {
@@ -68,6 +89,17 @@ img {
     margin: 0 auto;
 }
 
+.c-student__prefect-image,
+.c-student__squad-image {
+    filter: grayscale(1);
+    cursor: pointer;
+}
+
+.c-student__prefect-image.is-active,
+.c-student__squad-image.is-active {
+    filter: none;
+}
+
 .c-student {
     border-top: 1px solid #ddd;
 }
@@ -80,6 +112,11 @@ img {
 .c-table td {
     padding: 0.75rem 1rem;
     text-align: left;
+}
+
+.c-table th.is-active {
+    background-color: #000;
+    color: #fff;
 }
 
 .c-student > td:first-child {
@@ -160,10 +197,6 @@ img {
 
 .is-hidden {
     display: none;
-}
-
-.is-active {
-    filter: none;
 }
 
 /**

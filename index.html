@@ -14,26 +14,34 @@
     <header class="c-site-header"></header>
     <main class="c-site-content">
         <div class="o-container">
-            <h2>List of students 2021</h2>
-            <div class="c-filter-buttons">
-                <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
-                <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
-                <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
-                <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
-            </div>
-            <table class="c-table">
-                <thead class="c-table__head">
-                    <tr>
-                        <th></th>
-                        <th data-action="sort" data-sort-direction="asc" data-sort="first-name">First Name</th>
-                        <th data-action="sort" data-sort-direction="asc" data-sort="last-name">Last Name</th>
-                        <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
-                        <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Prefect</th>
-                        <th data-action="sort" data-sort-direction="asc" data-sort="squad">Squad</th>
-                    </tr>
-                </thead>
-                <tbody class="c-table__body js-student-list"></tbody>
-            </table>
+            <section class="c-house-overview js-house-overview">
+
+            </section>
+
+            <section class="c-student-overview">
+                <h2>List of students 2021</h2>
+                <div class="c-filter-buttons">
+                    <h3>Filter by</h3>
+                    <button class="c-button c-button--filter is-active" data-action="filter" data-filter="all">Show all</button>
+                    <button class="c-button c-button--filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+                    <button class="c-button c-button--filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+                    <button class="c-button c-button--filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+                    <button class="c-button c-button--filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+                </div>
+                <table class="c-table">
+                    <thead class="c-table__head">
+                        <tr>
+                            <th>Sort by:</th>
+                            <th class="is-active" data-action="sort" data-sort-direction="asc" data-sort="firstname">First Name</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="lastname">Last Name</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Prefect</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="squad">Squad</th>
+                        </tr>
+                    </thead>
+                    <tbody class="c-table__body js-student-list"></tbody>
+                </table>
+            </section>
         </div>
     </main>
     <footer class="c-site-footer"></footer>
@@ -65,6 +73,14 @@
         </div>
     </div>
 
+    <template class="t-house-stats">
+        <div class="c-house-stats">
+            <img class="c-house-stats__house-image" src="#" alt="#">
+            <p data-field="number-of-students"></p>
+            <p data-field="number-of-expelled-students"></p>
+        </div>
+    </template>
+
     <template class="t-student">
         <tr class="c-student">
             <td class="c-student__image-cell">
@@ -77,10 +93,10 @@
             <td class="c-student__house-cell">
                 <img class="c-student__house-image" src="#" alt="#">
             </td>
-            <td class="c-student__prefect-cell">
+            <td class="c-student__prefect-cell" data-action="prefect">
                 <img class="c-student__prefect-image" src="" alt="">
             </td>
-            <td class="c-student__squad-cell">
+            <td class="c-student__squad-cell" data-action="squad">
                 <img class="c-student__squad-image" src="" alt="">
             </td>
         </tr>
