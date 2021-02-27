@@ -230,6 +230,7 @@ function buildList() {
 function displayList(students) {
     // Reset list
     document.querySelector(".js-student-list").innerHTML = "";
+    document.querySelector(".js-expelled-student-list").innerHTML = "";
 
     // Loop through every student and display them on the screen
     students.forEach(displayStudent);
@@ -276,7 +277,11 @@ function displayStudent(student) {
     templateClone.querySelector(".c-student").addEventListener("click", clickStudent);
     // templateClone.querySelector("[data-action=squad]").addEventListener("click", clickSquadButton);
 
-    document.querySelector(".js-student-list").appendChild(templateClone);
+    if (student.expelled) {
+        document.querySelector(".js-expelled-student-list").appendChild(templateClone);
+    } else {
+        document.querySelector(".js-student-list").appendChild(templateClone);
+    }
 
     function clickStudent() {
         console.log(student);
@@ -321,8 +326,9 @@ function displayStudent(student) {
         if (student.squad) {
             student.squad = false;
         } else {
-            student.squad = true;
+            tryToAddStudentToSquad(student);
         }
+
         buildList();
         prepareStudentPopup(student);
     }
@@ -429,9 +435,7 @@ function sortList(sortedList) {
 }
 
 function tryToMakeStudentPrefect(selectedStudent) {
-    console.log(selectedStudent);
     const prefectsFromHouse = allStudents.filter((student) => student.house === selectedStudent.house && student.prefect);
-    console.table(prefectsFromHouse);
     const numberOfPrefects = prefectsFromHouse.length;
 
     if (numberOfPrefects >= 2) {
@@ -514,6 +518,18 @@ function tryToMakeStudentPrefect(selectedStudent) {
         function addPrefect(student) {
             student.prefect = true;
         }
+    }
+}
+
+function tryToAddStudentToSquad(selectedStudent) {
+    console.log(selectedStudent);
+
+    if (selectedStudent.house.toLowerCase() === "slytherin" || selectedStudent.bloodstatus.toLowerCase() === "pure-blood") {
+        console.log(`Student is ${selectedStudent.house} and ${selectedStudent.bloodstatus}`);
+        selectedStudent.squad = true;
+    } else {
+        console.log("Student cannot be added to InQ Squad, because: ");
+        console.log(`Student is ${selectedStudent.house} and ${selectedStudent.bloodstatus}`);
     }
 }
 

@@ -20,7 +20,6 @@
             </section>
 
             <section class="c-student-overview">
-                <h2>List of students 2021</h2>
                 <div class="c-filter-buttons">
                     <h3>Filter by</h3>
                     <button class="c-button c-button--filter is-active" data-action="filter" data-state="active" data-filter="all">Show all</button>
@@ -29,6 +28,7 @@
                     <button class="c-button c-button--filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
                     <button class="c-button c-button--filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
                 </div>
+                <h2>List of Active Students</h2>
                 <table class="c-table">
                     <thead class="c-table__head">
                         <tr>
@@ -44,6 +44,26 @@
                         </tr>
                     </thead>
                     <tbody class="c-table__body js-student-list"></tbody>
+                </table>
+            </section>
+
+            <section class="c-expelled-student-overview">
+                <h2>List of Expelled Students</h2>
+                <table class="c-table">
+                    <thead class="c-table__head">
+                        <tr>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="id">ID</th>
+                            <th>Image</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="firstname">First Name</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="lastname">Last Name</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="gender">Gender</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Prefect</th>
+                            <th data-action="sort" data-sort-direction="asc" data-sort="squad">Squad</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody class="c-table__body js-expelled-student-list"></tbody>
                 </table>
             </section>
         </div>
