@@ -32,8 +32,8 @@
                 <table class="c-table">
                     <thead class="c-table__head">
                         <tr>
-                            <th></th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="id">ID</th>
+                            <th>Image</th>
                             <th class="is-active" data-action="sort" data-sort-direction="asc" data-sort="firstname">First Name</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="lastname">Last Name</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="gender">Gender</th>
@@ -50,30 +50,61 @@
     </main>
     <footer class="c-site-footer"></footer>
 
-    <div class="c-student-popup is-hidden js-student-popup">
+    <div class="c-student-popup js-student-popup is-hidden">
         <div class="c-student-popup__content">
             <div class="c-student-popup__header">
                 <img class="c-student-popup__photo" data-field="profile-image" src="#" alt="#">
-                <h3 class="c-student-popup__title" data-field="name"></h3>
-                <div class="c-student-popup__status">
-                    <img class="c-icon" data-field="house" src="#" alt="#">
-                    <img class="c-icon" data-field="prefect" src="#" alt="#">
-                    <img class="c-icon" data-field="squad" src="#" alt="#">
+                <h3 class="c-student-popup__name" data-field="name"></h3>
+                <div class="c-student-popup__badge-group">
+                    <img class="c-student-popup__badge is-active" data-field="house" src="#" alt="#">
+                    <img class="c-student-popup__badge" data-field="prefect-image" src="#" alt="#">
+                    <img class="c-student-popup__badge" data-field="squad-image" src="#" alt="#">
                 </div>
-                <button class="c-student-popup__close-button js-student-popup-close-button">X</button>
             </div>
             <div class="c-student-popup__body">
                 <div class="c-student-popup__column">
-                    <h4>Demography</h4>
-                    <p>Gender: <span data-field="gender"></span></p>
-                    <p>Blood status: <span data-field="blood-status"></span></p>
+
+                    <p class="c-student-popup__text">Student ID: <span data-field="id"></span></p>
+                    <p class="c-student-popup__text">Gender: <span data-field="gender"></span></p>
+                    <p class="c-student-popup__text">Blood status: <span data-field="blood-status"></span></p>
+
                 </div>
+
                 <div class="c-student-popup__column">
-                    <h4>Status</h4>
-                    <p>Expelled: <span data-field="expelled"></span></p>
+                    <p class="c-student-popup__text">Prefect: <span data-field="prefect"></span></p>
+                    <p class="c-student-popup__text">The Inqusitorial Squad: <span data-field="squad"></span></p>
+                    <p class="c-student-popup__text">Expelled: <span data-field="expelled"></span></p>
                 </div>
             </div>
-            <div class="c-student-popup__footer"></div>
+            <div class="c-student-popup__footer">
+                <button class="c-button" data-action="prefect">Add as Prefect<i class="fas fa-plus-circle"></i></button>
+                <button class="c-button" data-action="squad">Add to Squad<i class="fas fa-plus-circle"></i></button>
+                <button class="c-button c-button--danger" data-action="expell">Expell student<i class="fas fa-exclamation-triangle"></i></button>
+            </div>
+            <button class="c-student-popup__close-button js-student-popup-close-button"><i class="fas fa-times"></i></button>
+            
+            <div class="c-student-modal is-hidden js-student-modal-prefect">
+                <div class="c-student-modal__header">
+                    <h3>There can only be two prefects per house.</h3>
+                    <p>Do you want to remove one of the existing prefects?</p>
+                </div>
+                <div class="c-student-modal__body">
+                    <div class="c-student-modal__column">
+                        <img class="c-student-modal__image" data-field="prefecta-image" src="#" alt="#">
+                        <h4 class="c-student-modal__name" data-field="prefecta-name"></h4>
+                        <button class="c-button" data-action="prefecta">Remove <span data-field="prefecta"></span></button>
+                    </div>
+                    <div class="c-student-modal__column">
+                        <img class="c-student-modal__image" data-field="prefectb-image" src="#" alt="#">
+                        <h4 class="c-student-modal__name" data-field="prefectb-name"></h4>
+                        <button class="c-button" data-action="prefectb">Remove <span data-field="prefectb"></span></button>
+                    </div>
+                </div>
+                <div class="c-student-modal__footer">                   
+                    <button class="c-button" data-action="cancel">Cancel</button>
+                </div>
+                <button class="c-student-modal__close-button js-student-modal-prefect-close-button"><i class="fas fa-times"></i></button>
+            </div>
         </div>
     </div>
 
@@ -87,10 +118,10 @@
 
     <template class="t-student">
         <tr class="c-student">
+            <td class="c-student__id-cell"></td>
             <td class="c-student__image-cell">
                 <img class="c-student__profile-image" src="#" alt="#">
             </td>
-            <td class="c-student__id-cell"></td>
             <td class="c-student__first-name-cell">
                 <h2 class="c-student__first-name-cell"></h2>
             </td>

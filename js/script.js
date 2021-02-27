@@ -9,7 +9,7 @@ let unfilteredStudents;
 
 const Student = {
     id: null,
-    fullname: "-unknown-",
+    fullname: "",
     firstname: "-unknown-",
     middlename: "-unknown-",
     nickname: null,
@@ -87,12 +87,14 @@ function prepareObjects(jsonData) {
             const firstNameAfterFirstLetter = fullname.substring(1);
             firstName = firstNameFirstLetter + firstNameAfterFirstLetter;
             student.firstname = firstNameFirstLetter + firstNameAfterFirstLetter;
+            student.fullname += student.firstname;
         } else {
             const findFirstName = fullname.substring(0, firstSpaceInFullName);
             firstNameFirstLetter = findFirstName[0].toUpperCase();
             const firstNameAfterFirstLetter = findFirstName.substring(1);
             firstName = firstNameFirstLetter + firstNameAfterFirstLetter;
             student.firstname = firstNameFirstLetter + firstNameAfterFirstLetter;
+            student.fullname += student.firstname;
         }
 
         let middlePartOfName = fullname.substring(firstSpaceInFullName, lastSpaceInFullName).trim();
@@ -106,6 +108,7 @@ function prepareObjects(jsonData) {
                 const middlePartOfNameAfterFirstLetter = middlePartOfName.substring(1);
                 student.nickname = middlePartOfNameFirstLetter + middlePartOfNameAfterFirstLetter;
                 student.middleName = null;
+                student.fullname += ` ${student.nickname}`;
 
                 // Else middlename
             } else {
@@ -113,6 +116,7 @@ function prepareObjects(jsonData) {
                 const middlePartOfNameAfterFirstLetter = middlePartOfName.substring(1);
                 student.middlename = middlePartOfNameFirstLetter + middlePartOfNameAfterFirstLetter;
                 student.nickname = null;
+                student.fullname += ` ${student.middlename}`;
             }
         } else {
             student.middlename = null;
@@ -131,6 +135,8 @@ function prepareObjects(jsonData) {
                 const lastNameFirstLetter = lastName[0].toUpperCase();
                 const lastNameAfterFirstLetter = lastName.substring(1);
                 student.lastname = lastNameFirstLetter + lastNameAfterFirstLetter;
+                student.fullname += ` ${student.lastname}`;
+
                 // Else has hyphen
             } else {
                 const lastNameFirstLetter = lastName[0].toUpperCase();
@@ -139,8 +145,10 @@ function prepareObjects(jsonData) {
                 afterHyphenUppercase = lastName.substring(hasLastNameHyphen + 2);
 
                 student.lastname = lastNameFirstLetter + beforeHyphenUppercase + hyphenUppercase + afterHyphenUppercase;
+                student.fullname += ` ${student.lastname}`;
             }
         } else {
+            student.fullname += ` ${student.lastname}`;
         }
 
         // House
@@ -229,10 +237,10 @@ function displayList(students) {
 
 function displayStudent(student) {
     const templateClone = templates.student.cloneNode(true);
+    const studentPopup = document.querySelector(".js-student-popup");
 
     // Student ID
     templateClone.querySelector(".c-student__id-cell").innerHTML = `#${student.id}`;
-
     // Profile image
     templateClone.querySelector(".c-student__profile-image").src = student.image;
     // First name
@@ -265,10 +273,8 @@ function displayStudent(student) {
     }
 
     // Show popup if click on student
-    templateClone.querySelector(".c-student__details-cell").addEventListener("click", clickStudent);
-
-    templateClone.querySelector("[data-action=prefect]").addEventListener("click", clickPrefectButton);
-    templateClone.querySelector("[data-action=squad]").addEventListener("click", clickSquadButton);
+    templateClone.querySelector(".c-student").addEventListener("click", clickStudent);
+    // templateClone.querySelector("[data-action=squad]").addEventListener("click", clickSquadButton);
 
     document.querySelector(".js-student-list").appendChild(templateClone);
 
@@ -276,57 +282,28 @@ function displayStudent(student) {
         console.log(student);
 
         // Inserts student data into the popup
-        prepareStudentPopup();
+        prepareStudentPopup(student);
         // Shows the popup with the inserted data of the student
         showStudentPopup();
     }
 
-    function prepareStudentPopup() {
-        const studentPopup = document.querySelector(".js-student-popup");
-
-        // Image
-        studentPopup.querySelector("[data-field=profile-image]").src = student.image;
-
-        // Name
-        studentPopup.querySelector("[data-field=name]").textContent = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
-
-        // Gender
-        studentPopup.querySelector("[data-field=gender]").textContent = student.gender;
-
-        // House
-        studentPopup.querySelector("[data-field=house]").src = `img/shield-${student.house.toLowerCase()}.png`;
-
-        // TODO: Add blood status
-        studentPopup.querySelector("[data-field=blood-status]").textContent = student.bloodstatus;
-
-        // TODO: Prefetch status
-        if (student.prefect) {
-            studentPopup.querySelector("[data-field=prefect]").classList.add("is-active");
-        }
-        studentPopup.querySelector("[data-field=prefect]").src = "img/shield-prefect.png";
-
-        // TODO: Squad status
-        if (student.squad) {
-            studentPopup.querySelector("[data-field=squad]").classList.add("is-active");
-        }
-        studentPopup.querySelector("[data-field=squad]").src = "img/squad-medal.png";
-
-        // TODO Expelled status
-        studentPopup.querySelector("[data-field=expelled]").textContent = student.expelled;
-    }
-
     function closeStudentPopup() {
-        document.querySelector(".js-student-popup").classList.add("is-hidden");
+        studentPopup.classList.add("is-hidden");
 
-        document.querySelector(".js-student-popup-close-button").removeEventListener("click", closeStudentPopup);
+        studentPopup.querySelector(".js-student-popup-close-button").removeEventListener("click", closeStudentPopup);
+        studentPopup.querySelector("[data-action=prefect]").removeEventListener("click", clickPrefectButton);
+        studentPopup.querySelector("[data-action=squad]").removeEventListener("click", clickSquadButton);
     }
 
     function showStudentPopup() {
         // Show popup
-        document.querySelector(".js-student-popup").classList.remove("is-hidden");
+        studentPopup.classList.remove("is-hidden");
 
         // Add eventlistener to close popup
-        document.querySelector(".js-student-popup-close-button").addEventListener("click", closeStudentPopup);
+        studentPopup.querySelector(".js-student-popup-close-button").addEventListener("click", closeStudentPopup);
+        studentPopup.querySelector("[data-action=prefect]").addEventListener("click", clickPrefectButton);
+        studentPopup.querySelector("[data-action=squad]").addEventListener("click", clickSquadButton);
+        studentPopup.querySelector("[data-action=expell]").addEventListener("click", clickExpellButton);
     }
 
     function clickPrefectButton() {
@@ -337,6 +314,7 @@ function displayStudent(student) {
         }
 
         buildList();
+        prepareStudentPopup(student);
     }
 
     function clickSquadButton() {
@@ -345,8 +323,15 @@ function displayStudent(student) {
         } else {
             student.squad = true;
         }
-        console.log(`InQ squad: ${student.squad}`);
         buildList();
+        prepareStudentPopup(student);
+    }
+
+    function clickExpellButton() {
+        student.expelled = true;
+
+        buildList();
+        prepareStudentPopup(student);
     }
 }
 
@@ -452,8 +437,136 @@ function tryToMakeStudentPrefect(selectedStudent) {
     if (numberOfPrefects >= 2) {
         console.log("There can only be two prefects for each house!");
         // TODO: Add modal to remove either A, B or do nothing
+        removeAorB(prefectsFromHouse[0], prefectsFromHouse[1]);
     } else {
         console.log("Student added");
         selectedStudent.prefect = true;
+    }
+
+    function removeAorB(prefectA, prefectB) {
+        console.table(prefectA);
+        console.table(prefectB);
+
+        const modal = document.querySelector(".js-student-modal-prefect");
+
+        const buttonA = modal.querySelector("[data-action=prefecta]");
+        const buttonB = modal.querySelector("[data-action=prefectb]");
+
+        const buttonCancel = modal.querySelector("[data-action=cancel]");
+        const buttonClose = modal.querySelector(".js-student-modal-prefect-close-button");
+
+        // Show student name under image
+        modal.querySelector("[data-field=prefecta-name]").textContent = prefectA.fullname;
+        modal.querySelector("[data-field=prefectb-name]").textContent = prefectB.fullname;
+        // Show student A and B name in buttons
+        buttonA.querySelector("[data-field=prefecta]").textContent = prefectA.fullname;
+        buttonB.querySelector("[data-field=prefectb]").textContent = prefectB.fullname;
+        // Show student image
+        modal.querySelector("[data-field=prefecta-image]").src = prefectA.image;
+        modal.querySelector("[data-field=prefectb-image]").src = prefectB.image;
+
+        // Button A or B, remove and add prefect
+        buttonA.addEventListener("click", clickRemovePrefectA);
+        buttonB.addEventListener("click", clickRemovePrefectB);
+
+        // Cancel or close button, close modal
+        buttonCancel.addEventListener("click", closeDialog);
+        buttonClose.addEventListener("click", closeDialog);
+
+        // Show modal
+        modal.classList.remove("is-hidden");
+
+        function closeDialog() {
+            buttonA.removeEventListener("click", clickRemovePrefectA);
+            buttonB.removeEventListener("click", clickRemovePrefectB);
+            buttonCancel.removeEventListener("click", closeDialog);
+            buttonClose.removeEventListener("click", closeDialog);
+
+            modal.classList.add("is-hidden");
+        }
+
+        function clickRemovePrefectA() {
+            removePrefectA(prefectA);
+            addPrefect(selectedStudent);
+            buildList();
+
+            prepareStudentPopup(selectedStudent);
+            closeDialog();
+        }
+
+        function clickRemovePrefectB() {
+            removePrefectB(prefectB);
+            addPrefect(selectedStudent);
+            buildList();
+
+            prepareStudentPopup(selectedStudent);
+            closeDialog();
+        }
+
+        function removePrefectA(student) {
+            student.prefect = false;
+        }
+
+        function removePrefectB(student) {
+            student.prefect = false;
+        }
+
+        function addPrefect(student) {
+            student.prefect = true;
+        }
+    }
+}
+
+function prepareStudentPopup(student) {
+    const studentPopup = document.querySelector(".js-student-popup");
+
+    console.log(student);
+
+    // Image
+    studentPopup.querySelector("[data-field=profile-image]").src = student.image;
+    // Name
+    studentPopup.querySelector("[data-field=name]").textContent = student.fullname;
+    // ID
+    studentPopup.querySelector("[data-field=id]").textContent = `#${student.id}`;
+    // Gender
+    studentPopup.querySelector("[data-field=gender]").textContent = student.gender;
+    // House
+    studentPopup.querySelector("[data-field=house]").src = `img/shield-${student.house.toLowerCase()}.png`;
+    // Blood status
+    studentPopup.querySelector("[data-field=blood-status]").textContent = student.bloodstatus;
+
+    // TODO: Prefetch status
+    if (student.prefect) {
+        studentPopup.querySelector("[data-field=prefect]").textContent = "Yes";
+        studentPopup.querySelector("[data-field=prefect-image]").classList.add("is-active");
+        studentPopup.querySelector("[data-action=prefect]").innerHTML = 'Remove as Prefect<i class="fas fa-minus-circle"></i>';
+    } else {
+        studentPopup.querySelector("[data-field=prefect]").textContent = "No";
+        studentPopup.querySelector("[data-field=prefect-image]").classList.remove("is-active");
+        studentPopup.querySelector("[data-action=prefect]").innerHTML = 'Add as Prefect<i class="fas fa-plus-circle"></i>';
+    }
+    studentPopup.querySelector("[data-field=prefect-image]").src = "img/shield-prefect.png";
+
+    // Squad status
+    if (student.squad) {
+        studentPopup.querySelector("[data-field=squad]").textContent = "Yes";
+        studentPopup.querySelector("[data-field=squad-image]").classList.add("is-active");
+        studentPopup.querySelector("[data-action=squad]").innerHTML = 'Remove from Squad<i class="fas fa-minus-circle"></i>';
+    } else {
+        studentPopup.querySelector("[data-field=squad]").textContent = "No";
+        studentPopup.querySelector("[data-field=squad-image]").classList.remove("is-active");
+        studentPopup.querySelector("[data-action=squad]").innerHTML = 'Add to Squad<i class="fas fa-plus-circle"></i>';
+    }
+    studentPopup.querySelector("[data-field=squad-image]").src = "img/squad-medal.png";
+
+    // TODO Expelled status
+    if (student.expelled) {
+        studentPopup.querySelector("[data-field=expelled]").textContent = "Yes";
+        studentPopup.querySelector("[data-action=expell]").innerHTML = "Already expelled";
+        studentPopup.querySelector("[data-action=expell]").disabled = true;
+    } else {
+        studentPopup.querySelector("[data-field=expelled]").textContent = "No";
+        studentPopup.querySelector("[data-action=expell]").innerHTML = 'Expell Student <i class="fas fa-exclamation-triangle">';
+        studentPopup.querySelector("[data-action=expell]").disabled = false;
     }
 }
