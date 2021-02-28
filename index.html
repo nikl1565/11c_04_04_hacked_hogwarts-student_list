@@ -15,20 +15,56 @@
     <header class="c-site-header"></header>
     <main class="c-site-content">
         <div class="o-container">
-            <section class="c-house-overview js-house-overview">
+            <h1>Hogwarts Student List</h1>
+            <section class="c-section c-house-overview">
+                <h2>Hogwarts Statistics</h2>
+                <div class="c-house-overview__house-group">
+                    <div class="c-house-overview__column js-house-status-hogwarts">
+                        <img class="c-house-overview__image" src="img/shield-hogwarts.png" alt="">
+                        <p>Total students: <span data-field="number-of-students"></span></p>
+                        <p>Active students: <span data-field="number-of-active-students"></span></p>
+                        <p>Expelled students: <span data-field="number-of-expelled-students"></span></p>
+                    </div>
+                    <div class="c-house-overview__column js-house-status-slytherin">
+                        <img class="c-house-overview__image" src="img/shield-slytherin.png" alt="">
+                        <p>Total students: <span data-field="number-of-students"></span></p>
+                        <p>Active students: <span data-field="number-of-active-students"></span></p>
+                        <p>Expelled students: <span data-field="number-of-expelled-students"></span></p>
+                    </div>
+                    <div class="c-house-overview__column js-house-status-hufflepuff">
+                        <img class="c-house-overview__image" src="img/shield-hufflepuff.png" alt="">
+                        <p>Total students: <span data-field="number-of-students"></span></p>
+                        <p>Active students: <span data-field="number-of-active-students"></span></p>
+                        <p>Expelled students: <span data-field="number-of-expelled-students"></span></p>
+                    </div>
+                    <div class="c-house-overview__column js-house-status-ravenclaw">
+                        <img class="c-house-overview__image" src="img/shield-ravenclaw.png" alt="">
+                        <p>Total students: <span data-field="number-of-students"></span></p>
+                        <p>Active students: <span data-field="number-of-active-students"></span></p>
+                        <p>Expelled students: <span data-field="number-of-expelled-students"></span></p>
+                    </div>
+                    <div class="c-house-overview__column js-house-status-gryffindor">
+                        <img class="c-house-overview__image" src="img/shield-gryffindor.png" alt="">
+                        <p>Total students: <span data-field="number-of-students"></span></p>
+                        <p>Active students: <span data-field="number-of-active-students"></span></p>
+                        <p>Expelled students: <span data-field="number-of-expelled-students"></span></p>
+                    </div>
 
+                </div>
             </section>
 
-            <section class="c-student-overview">
+            <section class="c-section c-student-overview">
                 <div class="c-filter-buttons">
                     <h3>Filter by</h3>
+                    <div class="c-filter-buttons__group">
                     <button class="c-button c-button--filter is-active" data-action="filter" data-state="active" data-filter="all">Show all</button>
                     <button class="c-button c-button--filter" data-action="filter" data-filter="slytherin">Slytherin</button>
                     <button class="c-button c-button--filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
                     <button class="c-button c-button--filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
                     <button class="c-button c-button--filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
                 </div>
-                <h2>List of Active Students</h2>
+                </div>
+                <h2>List of Active Students <span data-field="active-students-counter"></span></h2>
                 <table class="c-table">
                     <thead class="c-table__head">
                         <tr>
@@ -40,15 +76,14 @@
                             <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Prefect</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="squad">Squad</th>
-                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody class="c-table__body js-student-list"></tbody>
                 </table>
             </section>
 
-            <section class="c-expelled-student-overview">
-                <h2>List of Expelled Students</h2>
+            <section class="c-section c-expelled-student-overview">
+                <h2>List of Expelled Students <span data-field="expelled-students-counter"></span></h2>
                 <table class="c-table">
                     <thead class="c-table__head">
                         <tr>
@@ -60,7 +95,6 @@
                             <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="prefect">Prefect</th>
                             <th data-action="sort" data-sort-direction="asc" data-sort="squad">Squad</th>
-                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody class="c-table__body js-expelled-student-list"></tbody>
@@ -73,6 +107,7 @@
     <div class="c-student-popup js-student-popup is-hidden">
         <div class="c-student-popup__content">
             <div class="c-student-popup__header">
+                <div class="c-student-popup__header-content">
                 <img class="c-student-popup__photo" data-field="profile-image" src="#" alt="#">
                 <h3 class="c-student-popup__name" data-field="name"></h3>
                 <div class="c-student-popup__badge-group">
@@ -80,6 +115,7 @@
                     <img class="c-student-popup__badge" data-field="prefect-image" src="#" alt="#">
                     <img class="c-student-popup__badge" data-field="squad-image" src="#" alt="#">
                 </div>
+            </div>
             </div>
             <div class="c-student-popup__body">
                 <div class="c-student-popup__column">
@@ -155,9 +191,6 @@
             </td>
             <td class="c-student__squad-cell" data-action="squad">
                 <img class="c-student__squad-image" src="" alt="">
-            </td>
-            <td class="c-student__details-cell">
-                <i class="fas fa-chevron-right"></i>
             </td>
         </tr>
     </template>

@@ -47,6 +47,11 @@ p:last-child {
     margin-bottom: 0;
 }
 
+h1 {
+    font-size: 4rem;
+    text-align: center;
+}
+
 .fas {
     font-size: 2.5rem;
 }
@@ -56,6 +61,14 @@ p:last-child {
     margin: 0 auto;
     padding-right: 2rem;
     padding-left: 2rem;
+}
+
+.c-section {
+    padding: 2rem 0;
+}
+
+.c-section > h2 {
+    margin-bottom: 1rem;
 }
 
 .c-button {
@@ -90,20 +103,64 @@ p:last-child {
 }
 
 .c-button--filter.is-active {
-    background-color: #000;
+    background-color: green;
     color: #fff;
 }
 
 .c-site-content {
-    padding: 2rem 0;
+    padding: 6rem 0;
 }
 
 .c-student-overview {
     overflow-x: scroll;
 }
 
+.c-house-overview__house-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.c-house-overview__house-group > * {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: var(--global-border-radius);
+    box-shadow: var(--box-shadow);
+    flex-grow: 1;
+}
+
+.c-house-overview__house-group > * > p {
+    display: flex;
+    flex-direction: row;
+}
+
+.c-house-overview__house-group > * > p > span {
+    margin-left: auto;
+    padding-left: 0.25rem;
+}
+
+.c-house-overview__image {
+    width: 80px;
+    margin: 0 auto;
+}
+
 .c-filter-buttons {
-    padding: 2rem 0;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--global-border-radius);
+    margin-bottom: 2rem;
+}
+
+.c-filter-buttons__group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.c-filter-buttons h3 {
+    margin-bottom: 1rem;
 }
 
 .c-table {
@@ -161,8 +218,12 @@ p:last-child {
     text-align: left;
 }
 
+.c-table th {
+    cursor: pointer;
+}
+
 .c-table th.is-active {
-    background-color: #000;
+    background-color: green;
     color: #fff;
 }
 
@@ -221,6 +282,10 @@ p:last-child {
 
 .c-student-popup__header {
     border-bottom: 1px solid #ddd;
+    background-image: linear-gradient(135deg, var(--diamond-color) 25%, transparent 25%), linear-gradient(225deg, var(--diamond-color) 25%, transparent 25%), linear-gradient(315deg, var(--diamond-color) 25%, transparent 25%),
+        linear-gradient(45deg, var(--diamond-color) 25%, transparent 25%);
+    background-size: 90px 90px;
+    --diamond-color: #000;
     /* background-image: linear-gradient(to right, #740001 50%, #eeba30 50%); */
 }
 
@@ -247,6 +312,23 @@ p:last-child {
 .c-student-modal__body,
 .c-student-modal__footer {
     padding: 2rem;
+}
+
+.c-student-popup__header {
+    display: flex;
+    justify-content: center;
+}
+
+.c-student-popup__header-content {
+    background-color: #fff;
+    padding: 2rem 0.5rem 0.5rem;
+    border: 10px solid var(--house-border);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    box-shadow: var(--box-shadow);
+    --house-border: #000;
 }
 
 .c-student-popup__column:first-child {

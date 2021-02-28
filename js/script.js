@@ -172,7 +172,6 @@ function prepareObjects(jsonData) {
         familyBloodStatus.half = bloodStatus.half.includes(student.lastname);
         familyBloodStatus.pure = bloodStatus.pure.includes(student.lastname);
 
-        console.log(familyBloodStatus);
         // Set bloodstatus
         if (!familyBloodStatus.half && familyBloodStatus.pure) {
             student.bloodstatus = "Pure-blood";
@@ -181,8 +180,6 @@ function prepareObjects(jsonData) {
         } else {
             student.bloodstatus = "Muggle";
         }
-
-        console.log(student.bloodstatus);
 
         // Image
         let multipleWithTheSameLastName = 0;
@@ -225,6 +222,8 @@ function buildList() {
 
     // Display the list
     displayList(sortedList);
+
+    updateHogwartsOverview(sortedList);
 }
 
 function displayList(students) {
@@ -335,6 +334,8 @@ function displayStudent(student) {
 
     function clickExpellButton() {
         student.expelled = true;
+        student.prefect = false;
+        student.squad = false;
 
         buildList();
         prepareStudentPopup(student);
@@ -536,7 +537,23 @@ function tryToAddStudentToSquad(selectedStudent) {
 function prepareStudentPopup(student) {
     const studentPopup = document.querySelector(".js-student-popup");
 
-    console.log(student);
+    // Set house colors
+    const header = studentPopup.querySelector(".c-student-popup__header");
+    const headerContent = studentPopup.querySelector(".c-student-popup__header-content");
+
+    if (student.house.toLowerCase() === "slytherin") {
+        header.style.setProperty("--diamond-color", "#2A623D");
+        headerContent.style.setProperty("--house-border", "#5D5D5D");
+    } else if (student.house.toLowerCase() === "hufflepuff") {
+        header.style.setProperty("--diamond-color", "#FFDB00");
+        headerContent.style.setProperty("--house-border", "#60605C");
+    } else if (student.house.toLowerCase() === "ravenclaw") {
+        header.style.setProperty("--diamond-color", "#222F5B");
+        headerContent.style.setProperty("--house-border", "#946B2D");
+    } else {
+        header.style.setProperty("--diamond-color", "#AE0001");
+        headerContent.style.setProperty("--house-border", "#D3A625");
+    }
 
     // Image
     studentPopup.querySelector("[data-field=profile-image]").src = student.image;
@@ -551,7 +568,7 @@ function prepareStudentPopup(student) {
     // Blood status
     studentPopup.querySelector("[data-field=blood-status]").textContent = student.bloodstatus;
 
-    // TODO: Prefetch status
+    // Prefetch status
     if (student.prefect) {
         studentPopup.querySelector("[data-field=prefect]").textContent = "Yes";
         studentPopup.querySelector("[data-field=prefect-image]").classList.add("is-active");
@@ -575,7 +592,7 @@ function prepareStudentPopup(student) {
     }
     studentPopup.querySelector("[data-field=squad-image]").src = "img/squad-medal.png";
 
-    // TODO Expelled status
+    // Expelled status
     if (student.expelled) {
         studentPopup.querySelector("[data-field=expelled]").textContent = "Yes";
         studentPopup.querySelector("[data-action=expell]").innerHTML = "Already expelled";
@@ -584,5 +601,48 @@ function prepareStudentPopup(student) {
         studentPopup.querySelector("[data-field=expelled]").textContent = "No";
         studentPopup.querySelector("[data-action=expell]").innerHTML = 'Expell Student <i class="fas fa-exclamation-triangle">';
         studentPopup.querySelector("[data-action=expell]").disabled = false;
+    }
+}
+
+function updateHogwartsOverview(sortedList) {
+    console.log("YAY!");
+
+    const hogwarts = document.querySelector(".js-house-status-hogwarts");
+    const slytherin = document.querySelector(".js-house-status-slytherin");
+    const hufflepuff = document.querySelector(".js-house-status-hufflepuff");
+    const ravenclaw = document.querySelector(".js-house-status-ravenclaw");
+    const gryffindor = document.querySelector(".js-house-status-gryffindor");
+
+    showOverviewStats();
+
+    function showOverviewStats() {
+        // Whole school data
+        hogwarts.querySelector("[data-field=number-of-students]").textContent = allStudents.length;
+        hogwarts.querySelector("[data-field=number-of-active-students]").textContent = allStudents.filter((student) => student.expelled === false).length;
+        hogwarts.querySelector("[data-field=number-of-expelled-students]").textContent = allStudents.filter((student) => student.expelled === true).length;
+
+        // Slytherin house
+        const slytherinStudents = allStudents.filter((student) => student.house.toLowerCase() === "slytherin");
+        slytherin.querySelector("[data-field=number-of-students]").textContent = slytherinStudents.length;
+        slytherin.querySelector("[data-field=number-of-active-students]").textContent = slytherinStudents.filter((student) => student.expelled === false).length;
+        slytherin.querySelector("[data-field=number-of-expelled-students]").textContent = slytherinStudents.filter((student) => student.expelled === true).length;
+
+        // Hufflepuff house
+        const hufflepuffStudents = allStudents.filter((student) => student.house.toLowerCase() === "hufflepuff");
+        hufflepuff.querySelector("[data-field=number-of-students]").textContent = hufflepuffStudents.length;
+        hufflepuff.querySelector("[data-field=number-of-active-students]").textContent = hufflepuffStudents.filter((student) => student.expelled === false).length;
+        hufflepuff.querySelector("[data-field=number-of-expelled-students]").textContent = hufflepuffStudents.filter((student) => student.expelled === true).length;
+
+        // Ravenclaw house
+        const ravenclawStudents = allStudents.filter((student) => student.house.toLowerCase() === "ravenclaw");
+        ravenclaw.querySelector("[data-field=number-of-students]").textContent = ravenclawStudents.length;
+        ravenclaw.querySelector("[data-field=number-of-active-students]").textContent = ravenclawStudents.filter((student) => student.expelled === false).length;
+        ravenclaw.querySelector("[data-field=number-of-expelled-students]").textContent = ravenclawStudents.filter((student) => student.expelled === true).length;
+
+        // Gryffindor house
+        const gryffindorStudents = allStudents.filter((student) => student.house.toLowerCase() === "gryffindor");
+        gryffindor.querySelector("[data-field=number-of-students]").textContent = gryffindorStudents.length;
+        gryffindor.querySelector("[data-field=number-of-active-students]").textContent = gryffindorStudents.filter((student) => student.expelled === false).length;
+        gryffindor.querySelector("[data-field=number-of-expelled-students]").textContent = gryffindorStudents.filter((student) => student.expelled === true).length;
     }
 }
