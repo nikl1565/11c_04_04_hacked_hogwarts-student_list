@@ -32,6 +32,8 @@ const settings = {
     sortBy: "firstname",
     sortDir: "asc",
     filterBy: "all",
+    searchFor: "",
+    hacked: false,
 };
 
 const urls = {
@@ -52,6 +54,8 @@ async function init() {
 
     // Start filter and sort buttons
     initButtons();
+
+    initSearchField();
 }
 
 async function loadJSON(url) {
@@ -217,13 +221,16 @@ function buildList() {
     // Filter the list
     const filteredList = filterList(allStudents);
 
-    // TODO: Take the filtered list and sort it
+    // Take the filtered list and sort it
     const sortedList = sortList(filteredList);
 
-    // Display the list
-    displayList(sortedList);
+    // Take the sorted list and search the list
+    const searchedList = searchList(sortedList);
 
-    updateHogwartsOverview(sortedList);
+    // Display the list
+    displayList(searchedList);
+
+    updateHogwartsOverview(sortedList, searchedList);
 }
 
 function displayList(students) {
@@ -408,12 +415,11 @@ function filterByProperty(student) {
 function setSort(sortBy, sortDir) {
     settings.sortBy = sortBy;
     settings.sortDir = sortDir;
-    console.log(sortBy);
 
     buildList();
 }
 
-function sortList(sortedList) {
+function sortList(filteredList) {
     let direction = 1;
 
     if (settings.sortDir === "desc") {
@@ -422,7 +428,7 @@ function sortList(sortedList) {
         direction = 1;
     }
 
-    sortedList = sortedList.sort(sortByProperty);
+    filteredList = filteredList.sort(sortByProperty);
 
     function sortByProperty(studentA, studentB) {
         if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
@@ -432,7 +438,50 @@ function sortList(sortedList) {
         }
     }
 
-    return sortedList;
+    return filteredList;
+}
+
+function initSearchField() {
+    const searchField = document.querySelector("[data-action=search]");
+
+    searchField.addEventListener("input", activeSearchField);
+}
+
+function activeSearchField(event) {
+    const searchFieldText = event.target.value;
+    settings.searchFor = searchFieldText;
+
+    buildList();
+}
+
+function searchList(sortedList) {
+    const matches = [];
+
+    for (let studentIndex = 0; studentIndex < sortedList.length; studentIndex++) {
+        const student = sortedList[studentIndex];
+        const studentProperties = Object.values(student);
+        const searchText = settings.searchFor.toLowerCase();
+
+        for (let studentPropertyIndex = 0; studentPropertyIndex < studentProperties.length; studentPropertyIndex++) {
+            let studentProperty = studentProperties[studentPropertyIndex];
+
+            // If not a string and has a value, convert to string
+            if (typeof studentProperty !== "string" && studentProperty) {
+                studentProperty = studentProperty.toString();
+            }
+
+            if (studentProperty) {
+                studentProperty = studentProperty.toLowerCase();
+                const result = studentProperty.indexOf(searchText);
+                if (result !== -1) {
+                    matches.push(student);
+                    break;
+                }
+            }
+        }
+    }
+
+    return matches;
 }
 
 function tryToMakeStudentPrefect(selectedStudent) {
@@ -604,9 +653,7 @@ function prepareStudentPopup(student) {
     }
 }
 
-function updateHogwartsOverview(sortedList) {
-    console.log("YAY!");
-
+function updateHogwartsOverview(sortedList, searchedList) {
     const hogwarts = document.querySelector(".js-house-status-hogwarts");
     const slytherin = document.querySelector(".js-house-status-slytherin");
     const hufflepuff = document.querySelector(".js-house-status-hufflepuff");
@@ -620,6 +667,8 @@ function updateHogwartsOverview(sortedList) {
         hogwarts.querySelector("[data-field=number-of-students]").textContent = allStudents.length;
         hogwarts.querySelector("[data-field=number-of-active-students]").textContent = allStudents.filter((student) => student.expelled === false).length;
         hogwarts.querySelector("[data-field=number-of-expelled-students]").textContent = allStudents.filter((student) => student.expelled === true).length;
+        document.querySelector("[data-field=active-students-counter]").textContent = searchedList.length;
+        document.querySelector("[data-field=expelled-students-counter]").textContent = searchedList.filter((student) => student.expelled === true).length;
 
         // Slytherin house
         const slytherinStudents = allStudents.filter((student) => student.house.toLowerCase() === "slytherin");
