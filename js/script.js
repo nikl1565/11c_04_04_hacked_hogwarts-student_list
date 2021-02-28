@@ -274,20 +274,20 @@ function displayStudent(student) {
     }
 
     // House image
-    templateClone.querySelector(".c-student__house-image").src = `img/shield-${student.house.toLowerCase()}.png`;
+    templateClone.querySelector(".c-student__house-cell").textContent = student.house;
 
     // Prefect
-    templateClone.querySelector(".c-student__prefect-image").src = "img/shield-prefect.png";
-    // If student is prefect - highlight prefect icon
     if (student.prefect) {
-        templateClone.querySelector(".c-student__prefect-image").classList.add("is-active");
+        templateClone.querySelector(".c-student__prefect-cell").textContent = "Yes";
+    } else {
+        templateClone.querySelector(".c-student__prefect-cell").textContent = "No";
     }
 
     // Squad
-    templateClone.querySelector(".c-student__squad-image").src = "img/squad-medal.png";
-    // If student is a part of the squad
     if (student.squad) {
-        templateClone.querySelector(".c-student__squad-image").classList.add("is-active");
+        templateClone.querySelector(".c-student__squad-cell").textContent = "Yes";
+    } else {
+        templateClone.querySelector(".c-student__squad-cell").textContent = "No";
     }
 
     // Show popup if click on student
@@ -632,33 +632,27 @@ function prepareStudentPopup(student) {
     // Gender
     studentPopup.querySelector("[data-field=gender]").textContent = student.gender;
     // House
-    studentPopup.querySelector("[data-field=house]").src = `img/shield-${student.house.toLowerCase()}.png`;
+    studentPopup.querySelector("[data-field=house-name]").textContent = student.house;
     // Blood status
     studentPopup.querySelector("[data-field=blood-status]").textContent = student.bloodstatus;
 
     // Prefetch status
     if (student.prefect) {
         studentPopup.querySelector("[data-field=prefect]").textContent = "Yes";
-        studentPopup.querySelector("[data-field=prefect-image]").classList.add("is-active");
         studentPopup.querySelector("[data-action=prefect]").innerHTML = 'Remove as Prefect<i class="fas fa-minus-circle"></i>';
     } else {
         studentPopup.querySelector("[data-field=prefect]").textContent = "No";
-        studentPopup.querySelector("[data-field=prefect-image]").classList.remove("is-active");
         studentPopup.querySelector("[data-action=prefect]").innerHTML = 'Add as Prefect<i class="fas fa-plus-circle"></i>';
     }
-    studentPopup.querySelector("[data-field=prefect-image]").src = "img/shield-prefect.png";
 
     // Squad status
     if (student.squad) {
         studentPopup.querySelector("[data-field=squad]").textContent = "Yes";
-        studentPopup.querySelector("[data-field=squad-image]").classList.add("is-active");
         studentPopup.querySelector("[data-action=squad]").innerHTML = 'Remove from Squad<i class="fas fa-minus-circle"></i>';
     } else {
         studentPopup.querySelector("[data-field=squad]").textContent = "No";
-        studentPopup.querySelector("[data-field=squad-image]").classList.remove("is-active");
         studentPopup.querySelector("[data-action=squad]").innerHTML = 'Add to Squad<i class="fas fa-plus-circle"></i>';
     }
-    studentPopup.querySelector("[data-field=squad-image]").src = "img/squad-medal.png";
 
     // Expelled status
     if (student.id === 666) {

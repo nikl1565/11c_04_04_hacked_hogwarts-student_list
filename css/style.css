@@ -264,20 +264,8 @@ h1 {
     display: none;
 }
 
-.c-student-popup__badge-group {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.c-student-popup__badge {
-    width: 80px;
-    filter: grayscale(1);
-}
-
-.c-student-popup__badge.is-active {
-    filter: none;
+.c-student-popup__house-name {
+    text-align: center;
 }
 
 .c-student-popup__content {
