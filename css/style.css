@@ -227,6 +227,10 @@ h1 {
     color: #fff;
 }
 
+.c-table td {
+    cursor: pointer;
+}
+
 .c-student__profile-image {
     max-width: 60px;
 }
