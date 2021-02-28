@@ -172,6 +172,7 @@ h1 {
     border-radius: var(--global-border-radius);
     box-shadow: var(--box-shadow);
     width: 100%;
+    color: #000;
 }
 
 .c-table__head {
@@ -456,6 +457,15 @@ h1 {
 
 .c-student-modal .c-button span {
     margin-left: 0.25rem;
+}
+
+.c-site-footer {
+    padding: 2rem;
+    background-color: #333;
+}
+
+.c-site-footer a {
+    color: #fff;
 }
 
 /**

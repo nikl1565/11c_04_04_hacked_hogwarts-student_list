@@ -177,14 +177,25 @@ function prepareObjects(jsonData) {
         familyBloodStatus.pure = bloodStatus.pure.includes(student.lastname);
 
         // Set bloodstatus
-        if (!familyBloodStatus.half && familyBloodStatus.pure) {
-            student.bloodstatus = "Pure-blood";
-        } else if (familyBloodStatus.half && familyBloodStatus.pure) {
-            student.bloodstatus = "Half-blood";
-        } else {
-            student.bloodstatus = "Muggle";
-        }
+        if (settings.hacked) {
+            const randomNumber = Math.floor(Math.random() * 3) + 1;
 
+            if (randomNumber === 1) {
+                student.bloodstatus = "Pure-blood";
+            } else if (randomNumber === 2) {
+                student.bloodstatus = "Half-blood";
+            } else {
+                student.bloodstatus = "Muggle";
+            }
+        } else {
+            if (!familyBloodStatus.half && familyBloodStatus.pure) {
+                student.bloodstatus = "Pure-blood";
+            } else if (familyBloodStatus.half && familyBloodStatus.pure) {
+                student.bloodstatus = "Half-blood";
+            } else {
+                student.bloodstatus = "Muggle";
+            }
+        }
         // Image
         let multipleWithTheSameLastName = 0;
         unfilteredStudents.forEach((unfilteredStudent) => {
@@ -577,6 +588,14 @@ function tryToAddStudentToSquad(selectedStudent) {
     if (selectedStudent.house.toLowerCase() === "slytherin" || selectedStudent.bloodstatus.toLowerCase() === "pure-blood") {
         console.log(`Student is ${selectedStudent.house} and ${selectedStudent.bloodstatus}`);
         selectedStudent.squad = true;
+
+        if (settings.hacked) {
+            setTimeout(function () {
+                selectedStudent.squad = false;
+                buildList();
+                prepareStudentPopup(selectedStudent);
+            }, 5000);
+        }
     } else {
         console.log("Student cannot be added to InQ Squad, because: ");
         console.log(`Student is ${selectedStudent.house} and ${selectedStudent.bloodstatus}`);
@@ -642,7 +661,11 @@ function prepareStudentPopup(student) {
     studentPopup.querySelector("[data-field=squad-image]").src = "img/squad-medal.png";
 
     // Expelled status
-    if (student.expelled) {
+    if (student.id === 666) {
+        studentPopup.querySelector("[data-field=expelled]").textContent = "Never";
+        studentPopup.querySelector("[data-action=expell]").innerHTML = "Can't be expelled";
+        studentPopup.querySelector("[data-action=expell]").disabled = true;
+    } else if (student.expelled) {
         studentPopup.querySelector("[data-field=expelled]").textContent = "Yes";
         studentPopup.querySelector("[data-action=expell]").innerHTML = "Already expelled";
         studentPopup.querySelector("[data-action=expell]").disabled = true;
@@ -694,4 +717,59 @@ function updateHogwartsOverview(sortedList, searchedList) {
         gryffindor.querySelector("[data-field=number-of-active-students]").textContent = gryffindorStudents.filter((student) => student.expelled === false).length;
         gryffindor.querySelector("[data-field=number-of-expelled-students]").textContent = gryffindorStudents.filter((student) => student.expelled === true).length;
     }
+}
+
+function hackTheSystem() {
+    if (!settings.hacked) {
+        console.log("hack the system! 😈😈😈");
+        settings.hacked = true;
+
+        // Set body background
+        document.querySelector("body").style.backgroundImage = "url(https://media3.giphy.com/media/WoD6JZnwap6s8/giphy.gif?cid=ecf05e47orvoa8er2brz5el2gmpecoe5vf007olzhc7kwgfc&rid=giphy.gif)";
+        // Set title
+        document.querySelector("h1").style.color = "#fff";
+        document.querySelector(".c-student-overview").style.color = "#fff";
+        document.querySelector(".c-expelled-student-overview").style.color = "#fff";
+        document.querySelector("h1").textContent = "Hacked Hogwarts Student List 😈😈😈";
+
+        // Reset student list
+        allStudents = [];
+
+        // Update students to random blood type etc.
+        prepareObjects(unfilteredStudents);
+
+        // Set all students (expect my self) squad status to false
+        removeAllStudentsFromSquad();
+
+        // Inject my self as student
+        injectStudent();
+
+        // Update the list
+        buildList();
+    } else {
+        console.log("System already hacked! 😈");
+    }
+}
+
+function injectStudent() {
+    const niklasStudent = Object.create(Student);
+
+    niklasStudent.id = 666;
+    niklasStudent.fullname = 'Niklas "Niis" Vejlby Schjoldager';
+    niklasStudent.firstname = "Niklas";
+    niklasStudent.nickname = "Niis";
+    niklasStudent.lastname = "Schjoldager";
+    niklasStudent.gender = "boy";
+    niklasStudent.bloodStatus = "Full-blood, Half-blood and Muggle";
+    niklasStudent.house = "Gryffindor";
+    niklasStudent.image = "img/no-profile-image.png";
+    niklasStudent.prefect = true;
+    niklasStudent.squad = true;
+    niklasStudent.expelled = false;
+
+    allStudents.push(niklasStudent);
+}
+
+function removeAllStudentsFromSquad() {
+    allStudents.forEach((student) => (student.squad = false));
 }
